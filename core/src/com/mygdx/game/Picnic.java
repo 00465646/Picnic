@@ -7,7 +7,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 
 public class Picnic extends ApplicationAdapter {
 	SpriteBatch batch;
-	Texture img;
+	//Texture img;
 	
 	@Override
 	public void create () {

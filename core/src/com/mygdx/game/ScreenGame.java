@@ -30,7 +30,7 @@ public class ScreenGame implements Screen {
     ImageButton btnExit;
 
     // создаём массив ссылок на объекты комаров
-    Сockroach[] сockroaches = new Сockroach[7];
+    Сockroach[] сockroaches = new Сockroach[50];
     int kills;
 
     // переменные для работы с таймером
@@ -119,7 +119,7 @@ public class ScreenGame implements Screen {
 
         // события игры
         for(int i = 0; i< сockroaches.length; i++) {
-            сockroaches[i].fly();
+            сockroaches[i].move();
         }
         if(situation == PLAY_GAME) {
             timeCurrently = TimeUtils.millis() - timeStartGame;
@@ -131,7 +131,7 @@ public class ScreenGame implements Screen {
         mgg.batch.begin();
         mgg.batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
         for(int i = 0; i< сockroaches.length; i++) {
-            mgg.batch.draw(imgKomar[сockroaches[i].faza], сockroaches[i].x, сockroaches[i].y, сockroaches[i].width, сockroaches[i].height, 0, 0, 500, 500, сockroaches[i].isFlip(), false);
+            mgg.batch.draw(imgKomar[сockroaches[i].faza], сockroaches[i].x, сockroaches[i].y, сockroaches[i].width, сockroaches[i].height, 0, 0, 500, 500, false, false);
         }
         mgg.batch.draw(imgBtnExit, btnExit.x, btnExit.y, btnExit.width, btnExit.height);
 

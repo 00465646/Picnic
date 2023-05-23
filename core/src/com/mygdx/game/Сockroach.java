@@ -5,35 +5,46 @@ import static com.mygdx.game.Picnic.SCR_WIDTH;
 import com.badlogic.gdx.math.MathUtils;
 
 public class Сockroach {
-    public boolean isAlive;
-    int typeFragment;
-    int typeShip;
-    float v, a;
-    float speedRotation, angle;
     float x, y;
     float vx, vy;
-    float width,height;
+    float width, height;
+    int faza, nFaz = 10;
+    boolean isAlive = true;
+    float v, a, radius;
 
-    public Сockroach(float x, float y, float size, int typeShip) {
-        super();
-        width = MathUtils.random(size/10, size/3);
-        height = MathUtils.random(size/10, size/3);
-        v = MathUtils.random(2f, 5f);
+    public Сockroach() {
+        width = MathUtils.random(50, 100);
+        height = width * 2;
+        v = MathUtils.random(0.2f, 1f);
         a = MathUtils.random(0f, 360f);
-        vx = MathUtils.sin(a)*v;
-        vy = MathUtils.cos(a)*v;
-        this.typeShip = typeShip;
-        typeFragment = MathUtils.random(0, 3);
-        speedRotation = MathUtils.random(-5f, 5f);
+        radius = (float) Math.sqrt(Math.pow(SCR_WIDTH, 2) + Math.pow(SCR_HEIGHT, 2));
+        x = radius * MathUtils.sin(a) + SCR_WIDTH/2;
+        y = radius * MathUtils.cos(a) + SCR_HEIGHT/2;
+        vx = -MathUtils.sin(a)*v;
+        vy = -MathUtils.cos(a)*v;
     }
 
-    @Override
     void move() {
-        super.move ();
-        angle += speedRotation;
+        x += vx;
+        y += vy;
+        if(x == SCR_WIDTH/2) {
+            vx = 0;
+            x = SCR_WIDTH/2;
+        }
+        if(y == SCR_HEIGHT/2) {
+            vy = 0;
+            y = SCR_HEIGHT/2;
+        }
     }
 
-    boolean outOfScreen() {
-       return x < -width/2 || x > SCR_WIDTH + width/2 || y < - height/2 || y > SCR_HEIGHT + height/2;
+    boolean hit(float tx, float ty){
+        if(x < tx && tx < x+width && y < ty && ty < y+height){
+            isAlive = false;
+            faza = 10;
+            vx = 0;
+            vy = 0;
+            return true;
+        }
+        return false;
     }
 }

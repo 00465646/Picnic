@@ -1,62 +1,39 @@
 package com.mygdx.game;
-
 import static com.mygdx.game.Picnic.SCR_HEIGHT;
 import static com.mygdx.game.Picnic.SCR_WIDTH;
 
 import com.badlogic.gdx.math.MathUtils;
 
 public class Сockroach {
+    public boolean isAlive;
+    int typeFragment;
+    int typeShip;
+    float v, a;
+    float speedRotation, angle;
     float x, y;
     float vx, vy;
-    float width, height;
-    int faza, nFaz = 10;
-    boolean isAlive = true;
+    float width,height;
 
-    public Сockroach(){
-        width = height = MathUtils.random(100, 250);
-        x = SCR_WIDTH /2-width/2;
-        y = SCR_HEIGHT /2-height/2;
-        vx = MathUtils.random(-5f, 5f);
-        vy = MathUtils.random(-5f, 5f);
-        faza = MathUtils.random(0, nFaz-1);
+    public Сockroach(float x, float y, float size, int typeShip) {
+        super();
+        width = MathUtils.random(size/10, size/3);
+        height = MathUtils.random(size/10, size/3);
+        v = MathUtils.random(2f, 5f);
+        a = MathUtils.random(0f, 360f);
+        vx = MathUtils.sin(a)*v;
+        vy = MathUtils.cos(a)*v;
+        this.typeShip = typeShip;
+        typeFragment = MathUtils.random(0, 3);
+        speedRotation = MathUtils.random(-5f, 5f);
     }
 
-    void fly(){
-        x += vx;
-        y += vy;
-        if(isAlive) {
-            outBounds1();
-            if (++faza == nFaz) faza = 0;
-        }
+    @Override
+    void move() {
+        super.move ();
+        angle += speedRotation;
     }
 
-    void outBounds1(){
-        if(x<0 || x> SCR_WIDTH -width) vx = -vx;
-        if(y<0 || y> SCR_HEIGHT -height) vy=-vy;
-    }
-
-    void outBounds2(){
-        if(x<0-width) x = SCR_WIDTH;
-        if(x> SCR_WIDTH) x = 0-width;
-        if(y<0-height) y = SCR_HEIGHT;
-        if(y> SCR_HEIGHT) y = 0-height;
-    }
-
-    boolean isFlip(){
-        if(vx>0) {
-            return true;
-        }
-        return false;
-    }
-
-    boolean hit(float tx, float ty){
-        if(x < tx && tx < x+width && y < ty && ty < y+height){
-            isAlive = false;
-            faza = 10;
-            vx = 0;
-            vy = -8;
-            return true;
-        }
-        return false;
+    boolean outOfScreen() {
+       return x < -width/2 || x > SCR_WIDTH + width/2 || y < - height/2 || y > SCR_HEIGHT + height/2;
     }
 }

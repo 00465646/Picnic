@@ -6,7 +6,6 @@ import static com.mygdx.game.Picnic.SCR_WIDTH;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.MathUtils;
@@ -22,7 +21,6 @@ public class ScreenGame implements Screen {
     //Texture imgBtnPause, imgBtnPlay;
 
     Sound[] sndKomar = new Sound[4];
-    Music sndMusic;
 
     // логические переменные
     boolean soundOn = true;
@@ -32,7 +30,7 @@ public class ScreenGame implements Screen {
     ImageButton btnExit;
 
     // создаём массив ссылок на объекты комаров
-    Сockroach[] сockroaches = new Сockroach[35];
+    Сockroach[] сockroaches = new Сockroach[7];
     int kills;
 
     // переменные для работы с таймером
@@ -64,9 +62,6 @@ public class ScreenGame implements Screen {
         for(int i=0; i<sndKomar.length; i++) {
             sndKomar[i] = Gdx.audio.newSound(Gdx.files.internal("mos"+i+".mp3"));
         }
-        sndMusic = Gdx.audio.newMusic(Gdx.files.internal("jinglebells.mp3"));
-        sndMusic.setLooping(true);
-        sndMusic.setVolume(0.5f);
 
         // создаём кнопки
         btnExit = new ImageButton(SCR_WIDTH -60, SCR_HEIGHT -60, 50);
@@ -166,10 +161,6 @@ public class ScreenGame implements Screen {
         for(int i = 0; i< сockroaches.length; i++){
             сockroaches[i] = new Сockroach();
         }
-        // включаем музыку
-        if(musicOn) {
-            sndMusic.play();
-        }
 
         // узнаём время старта игры
         timeStartGame = TimeUtils.millis();
@@ -241,8 +232,9 @@ public class ScreenGame implements Screen {
 
     @Override
     public void hide() {
-        sndMusic.stop();
+
     }
+
 
     @Override
     public void dispose() {
@@ -254,6 +246,5 @@ public class ScreenGame implements Screen {
         }
         imgBackGround.dispose();
         imgBtnExit.dispose();
-        sndMusic.dispose();
     }
 }

@@ -18,13 +18,13 @@ public class ScreenAbout implements Screen {
                             "java с использованием фреймворка\n" +
                             "LibGDX.\n" +
                             "Цель игры - как можно быстрее\n" +
-                            "сбить всех комаров. Победитель\n" +
+                            "убить всех тараканов и защитить сыр. Победитель\n" +
                             "попадает в таблицу рекордов.";
 
     public ScreenAbout(Picnic g) {
         mgg = g;
 
-        imgBackGround = new Texture("swamp3.jpg");
+        imgBackGround = new Texture("intro2.png");
 
         btnBack = new TextButton(mgg.font, "Back", 500, 100);
     }

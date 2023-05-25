@@ -24,7 +24,7 @@ public class ScreenAbout implements Screen {
     public ScreenAbout(Picnic g) {
         mgg = g;
 
-        imgBackGround = new Texture("intro2.png");
+        imgBackGround = new Texture("intro1.png");
 
         btnBack = new TextButton(mgg.font, "Back", 500, 100);
     }

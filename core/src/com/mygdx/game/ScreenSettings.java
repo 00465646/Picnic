@@ -20,7 +20,7 @@ public class ScreenSettings implements Screen {
     public ScreenSettings(Picnic g) {
         mgg = g;
 
-        imgBackGround = new Texture("swamp2.jpg");
+        imgBackGround = new Texture("intro1.png");
         btnSound = new TextButton(mgg.font, "Sound on", 500, 500);
         btnMusic = new TextButton(mgg.font, "Music on", 500, 400);
         btnClearTable = new TextButton(mgg.font, "Clear records", 500, 300);

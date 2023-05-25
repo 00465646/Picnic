@@ -17,11 +17,12 @@ public class Сockroach {
         height = width * 2;
         v = MathUtils.random(0.2f, 1f);
         a = MathUtils.random(0f, 360f);
-        radius = (float) Math.sqrt(Math.pow(SCR_WIDTH, 2) + Math.pow(SCR_HEIGHT, 2));
+        radius = (float) Math.sqrt(Math.pow(SCR_WIDTH/2, 2) + Math.pow(SCR_HEIGHT/2, 2));
         x = radius * MathUtils.sin(a) + SCR_WIDTH/2;
         y = radius * MathUtils.cos(a) + SCR_HEIGHT/2;
         vx = -MathUtils.sin(a)*v;
         vy = -MathUtils.cos(a)*v;
+        a += 180;
     }
 
     void move() {

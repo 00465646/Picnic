@@ -178,7 +178,7 @@ public class ScreenGame implements Screen {
         situation = PLAY_GAME;
         kills = 0;
         cheese.live = 100;
-        // создаём объекты
+        // создаём объекты тараканов
         for(int i = 0; i< cockroaches.length; i++){
             cockroaches[i] = new Сockroach();
         }

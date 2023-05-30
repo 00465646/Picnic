@@ -15,7 +15,6 @@ public class ScreenGame implements Screen {
     Picnic mgg;
 
     Texture[] imgKomar = new Texture[11]; // ссылки на изображения
-    Texture imgCockroach;
     Texture imgBackGround; // фоновое изображение
     Texture imgBtnExit;
     Texture imgBtnSndOn, imgBtnSndOff;
@@ -54,7 +53,6 @@ public class ScreenGame implements Screen {
         for(int i=0; i<imgKomar.length; i++) {
             imgKomar[i] = new Texture("mosq"+i+".png"); // создать объект-картинку и загрузить в него изображение
         }
-        imgCockroach = new Texture("cockroach.png");
         imgBackGround = new Texture("intro1.png");
         imgBtnExit = new Texture("exit.png");
         imgBtnSndOn = new Texture("sndon.png");
@@ -133,13 +131,8 @@ public class ScreenGame implements Screen {
         mgg.batch.begin();
         mgg.batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
         for(int i = 0; i< сockroaches.length; i++) {
-            //mgg.batch.draw(imgKomar[сockroaches[i].faza], сockroaches[i].x, сockroaches[i].y, сockroaches[i].width, сockroaches[i].height, 0, 0, 500, 500, false, false);
-            mgg.batch.draw(imgCockroach, сockroaches[i].x, сockroaches[i].y,
-                    сockroaches[i].width/2, сockroaches[i].height/2,
-                    сockroaches[i].width, сockroaches[i].height, 1, 1, сockroaches[i].a,
-                    0, 0, 200, 400, false, false);
+            mgg.batch.draw(imgKomar[сockroaches[i].faza], сockroaches[i].x, сockroaches[i].y, сockroaches[i].width, сockroaches[i].height, 0, 0, 500, 500, false, false);
         }
-
         mgg.batch.draw(imgBtnExit, btnExit.x, btnExit.y, btnExit.width, btnExit.height);
 
         mgg.font.draw(mgg.batch, "KILLS: "+kills, 10, SCR_HEIGHT -10);

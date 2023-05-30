@@ -14,9 +14,9 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class ScreenGame implements Screen {
     Picnic mgg;
 
-    Texture[] imgKomar = new Texture[11]; // ссылки на изображения
-    Texture imgCockroach;
+    Texture imgCockroach, imgCockroachDie;
     Texture imgBackGround; // фоновое изображение
+    Texture imgCheese;
     Texture imgBtnExit;
     Texture imgBtnSndOn, imgBtnSndOff;
     //Texture imgBtnPause, imgBtnPlay;
@@ -30,8 +30,9 @@ public class ScreenGame implements Screen {
     // кнопки интерфейса игры
     ImageButton btnExit;
 
-    // создаём массив ссылок на объекты комаров
-    Сockroach[] сockroaches = new Сockroach[50];
+    // создаём массив ссылок на объекты
+    Сockroach[] cockroaches = new Сockroach[150];
+    Cheese cheese;
     int kills;
 
     // переменные для работы с таймером
@@ -51,11 +52,10 @@ public class ScreenGame implements Screen {
         mgg = g;
 
         // загружаем картинки
-        for(int i=0; i<imgKomar.length; i++) {
-            imgKomar[i] = new Texture("mosq"+i+".png"); // создать объект-картинку и загрузить в него изображение
-        }
-        imgCockroach = new Texture("cockroach.png");
-        imgBackGround = new Texture("intro1.png");
+        imgCockroach = new Texture("tarakan3.png");
+        imgCockroachDie = new Texture("tarakan4.png");
+        imgCheese = new Texture("cheese2.png");
+        imgBackGround = new Texture("table.png");
         imgBtnExit = new Texture("exit.png");
         imgBtnSndOn = new Texture("sndon.png");
         imgBtnSndOff = new Texture("sndoff.png");
@@ -71,6 +71,8 @@ public class ScreenGame implements Screen {
         for (int i = 0; i < players.length; i++) {
             players[i] = new Player("noname", 0);
         }
+
+        cheese = new Cheese();
         loadTableOfRecords();
     }
 
@@ -86,13 +88,13 @@ public class ScreenGame implements Screen {
             mgg.touch.set(Gdx.input.getX(), Gdx.input.getY(), 0);
             mgg.camera.unproject(mgg.touch);
             if(situation == PLAY_GAME) {
-                for (int i = сockroaches.length - 1; i >= 0; i--) {
-                    if (сockroaches[i].isAlive && сockroaches[i].hit(mgg.touch.x, mgg.touch.y)) {
+                for (int i = cockroaches.length - 1; i >= 0; i--) {
+                    if (cockroaches[i].isAlive && cockroaches[i].hit(mgg.touch.x, mgg.touch.y)) {
                         kills++;
                         if (soundOn) {
                             sndKomar[MathUtils.random(0, 3)].play();
                         }
-                        if (kills == сockroaches.length) {
+                        if (kills == cockroaches.length) {
                             situation = ENTER_NAME;
                         }
                         break;
@@ -100,7 +102,7 @@ public class ScreenGame implements Screen {
                 }
             }
             if(situation == SHOW_TABLE){
-                gameStart();
+                mgg.setScreen(mgg.screenIntro);
             }
             if(situation == ENTER_NAME){
                 mgg.keyboard.hit(mgg.touch.x, mgg.touch.y);
@@ -120,11 +122,18 @@ public class ScreenGame implements Screen {
         }
 
         // события игры
-        for(int i = 0; i< сockroaches.length; i++) {
-            сockroaches[i].move();
-        }
-        if(situation == PLAY_GAME) {
-            timeCurrently = TimeUtils.millis() - timeStartGame;
+        if(cheese.live>0) {
+            for (int i = 0; i < cockroaches.length; i++) {
+                cockroaches[i].move();
+                if (cockroaches[i].win()) {
+                    cockroaches[i].reborn();
+                    cheese.live -= 5;
+                    if (cheese.live <= 0) situation = ENTER_NAME;
+                }
+            }
+            if (situation == PLAY_GAME) {
+                timeCurrently = TimeUtils.millis() - timeStartGame;
+            }
         }
 
         // вывод изображений
@@ -132,17 +141,21 @@ public class ScreenGame implements Screen {
         mgg.batch.setProjectionMatrix(mgg.camera.combined);
         mgg.batch.begin();
         mgg.batch.draw(imgBackGround, 0, 0, SCR_WIDTH, SCR_HEIGHT);
-        for(int i = 0; i< сockroaches.length; i++) {
+        for(int i = 0; i< cockroaches.length; i++) {
             //mgg.batch.draw(imgKomar[сockroaches[i].faza], сockroaches[i].x, сockroaches[i].y, сockroaches[i].width, сockroaches[i].height, 0, 0, 500, 500, false, false);
-            mgg.batch.draw(imgCockroach, сockroaches[i].x, сockroaches[i].y,
-                    сockroaches[i].width/2, сockroaches[i].height/2,
-                    сockroaches[i].width, сockroaches[i].height, 1, 1, сockroaches[i].a,
-                    0, 0, 200, 400, false, false);
+            mgg.batch.draw(cockroaches[i].isAlive?imgCockroach:imgCockroachDie, cockroaches[i].getX(), cockroaches[i].getY(),
+                    cockroaches[i].width/2, cockroaches[i].height/2,
+                    cockroaches[i].width, cockroaches[i].height, 1, 1, -cockroaches[i].a+180,
+                    0, 0, 767, 767, false, false);
+            //mgg.fontSmall.draw(mgg.batch, ""+(int)сockroaches[i].a, сockroaches[i].x, сockroaches[i].y);
         }
+
+        mgg.batch.draw(imgCheese, cheese.getX(), cheese.getY(), cheese.width, cheese.height);
 
         mgg.batch.draw(imgBtnExit, btnExit.x, btnExit.y, btnExit.width, btnExit.height);
 
-        mgg.font.draw(mgg.batch, "KILLS: "+kills, 10, SCR_HEIGHT -10);
+        mgg.font.draw(mgg.batch, "KILLS: "+kills, 10, SCR_HEIGHT-10);
+        mgg.font.draw(mgg.batch, "CHEESE: "+cheese.live+"%", SCR_WIDTH/2-250, SCR_HEIGHT-10);
         mgg.font.draw(mgg.batch, "TIME: "+timeToString(timeCurrently), SCR_WIDTH -450, SCR_HEIGHT -10);
         if(situation == ENTER_NAME){
             mgg.keyboard.draw(mgg.batch);
@@ -164,9 +177,10 @@ public class ScreenGame implements Screen {
     void gameStart() {
         situation = PLAY_GAME;
         kills = 0;
-        // создаём объекты комаров
-        for(int i = 0; i< сockroaches.length; i++){
-            сockroaches[i] = new Сockroach();
+        cheese.live = 100;
+        // создаём объекты
+        for(int i = 0; i< cockroaches.length; i++){
+            cockroaches[i] = new Сockroach();
         }
 
         // узнаём время старта игры
@@ -245,9 +259,7 @@ public class ScreenGame implements Screen {
 
     @Override
     public void dispose() {
-        for (int i = 0; i < imgKomar.length; i++) {
-            imgKomar[i].dispose();
-        }
+        imgCockroach.dispose();
         for (int i = 0; i < sndKomar.length; i++) {
             sndKomar[i].dispose();
         }

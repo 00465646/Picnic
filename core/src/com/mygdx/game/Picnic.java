@@ -19,7 +19,7 @@ public class Picnic extends Game {
     SpriteBatch batch; // ссылка на объект, отвечающий за вывод изображений
     OrthographicCamera camera;
     Vector3 touch;
-    BitmapFont font;
+    BitmapFont font, fontSmall;
     InputKeyboard keyboard;
 
     ScreenIntro screenIntro;
@@ -54,6 +54,8 @@ public class Picnic extends Game {
         parameter.borderWidth = 3;
         parameter.borderColor = Color.BLACK;
         font = generator.generateFont(parameter);
+        parameter.size = 20;
+        fontSmall = generator.generateFont(parameter);
         generator.dispose();
     }
 

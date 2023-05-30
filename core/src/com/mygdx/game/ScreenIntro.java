@@ -20,7 +20,7 @@ public class ScreenIntro implements Screen {
     public ScreenIntro(Picnic g) {
         mgg = g;
 
-        imgBackGround = new Texture("intro1.png");
+        imgBackGround = new Texture("intro5.png");
         btnPlay = new TextButton(mgg.font, "Play", 500, 500);
         btnSettings = new TextButton(mgg.font, "Settings", 500, 400);
         btnAbout = new TextButton(mgg.font, "About", 500, 300);

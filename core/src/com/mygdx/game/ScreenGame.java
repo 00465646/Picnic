@@ -15,7 +15,7 @@ public class ScreenGame implements Screen {
     Picnic mgg;
 
     Texture imgCockroach, imgCockroachDie;
-    Texture imgBackGround; // фоновое изображение
+    Texture imgBackGround; // фоновое изображение e
     Texture imgCheese;
     Texture imgBtnExit;
     Texture imgBtnSndOn, imgBtnSndOff;

@@ -6,11 +6,10 @@ public class Cheese {
     float x, y;
     float width, height;
     int live = 100;
-    float radius;
+
 
     public Cheese() {
         width = height = 300;
-        radius = width / 2;
         x = SCR_WIDTH/2;
         y = SCR_HEIGHT/2;
     }

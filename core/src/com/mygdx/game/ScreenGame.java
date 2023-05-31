@@ -31,7 +31,7 @@ public class ScreenGame implements Screen {
     ImageButton btnExit;
 
     // создаём массив ссылок на объекты
-    Сockroach[] cockroaches = new Сockroach[150];
+    Cockroach[] cockroaches = new Cockroach[150];
     Cheese cheese;
     int kills;
 
@@ -97,6 +97,7 @@ public class ScreenGame implements Screen {
                         if (kills == cockroaches.length) {
                             situation = ENTER_NAME;
                         }
+                        sortCockroaches();
                         break;
                     }
                 }
@@ -180,7 +181,7 @@ public class ScreenGame implements Screen {
         cheese.live = 100;
         // создаём объекты тараканов
         for(int i = 0; i< cockroaches.length; i++){
-            cockroaches[i] = new Сockroach();
+            cockroaches[i] = new Cockroach();
         }
 
         // узнаём время старта игры
@@ -191,13 +192,22 @@ public class ScreenGame implements Screen {
 
     }
 
-    void sortTableOfRecords(){
-        for (int i = 0; i < players.length; i++) {
-            if(players[i].time == 0) players[i].time = 1000000000;
+    void sortCockroaches(){
+        for (int j = 0; j < cockroaches.length; j++) {
+            for (int i = 0; i < cockroaches.length - 1; i++) {
+                if (cockroaches[i].isAlive == true) {
+                    Cockroach z = cockroaches[i];
+                    cockroaches[i] = cockroaches[i+1];
+                    cockroaches[i+1] = z;
+                }
+            }
         }
+    }
+
+    void sortTableOfRecords(){
         for (int j = 0; j < players.length; j++) {
             for (int i = 0; i < players.length - 1; i++) {
-                if (players[i].time > players[i + 1].time) {
+                if (players[i].time < players[i + 1].time) {
                     long z = players[i].time;
                     players[i].time = players[i + 1].time;
                     players[i + 1].time = z;
@@ -206,9 +216,6 @@ public class ScreenGame implements Screen {
                     players[i + 1].name = s;
                 }
             }
-        }
-        for (int i = 0; i < players.length; i++) {
-            if(players[i].time == 1000000000) players[i].time = 0;
         }
     }
 

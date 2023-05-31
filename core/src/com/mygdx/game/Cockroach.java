@@ -4,7 +4,7 @@ import static com.mygdx.game.Picnic.SCR_WIDTH;
 
 import com.badlogic.gdx.math.MathUtils;
 
-public class Сockroach {
+public class Cockroach {
     float x, y;
     float vx, vy;
     float width, height;
@@ -12,7 +12,7 @@ public class Сockroach {
     boolean isAlive = true;
     float v, a, radius;
 
-    public Сockroach() {
+    public Cockroach() {
         width = MathUtils.random(100, 200);
         height = width * 2;
         reborn();

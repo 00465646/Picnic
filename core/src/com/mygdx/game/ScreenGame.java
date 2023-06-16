@@ -115,8 +115,7 @@ public class ScreenGame implements Screen {
                     saveTableOfRecords();
                 }
             }
-
-            // нажатия на экранные кнопки
+            //нажатия на экранные кнопки
             if(btnExit.hit(mgg.touch.x, mgg.touch.y)){
                 mgg.setScreen(mgg.screenIntro); // выход из игры
             }
